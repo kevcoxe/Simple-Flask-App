@@ -1,6 +1,5 @@
 import sqlite3
 from flask import Flask, render_template, g, request, redirect
-from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 DATABASE = 'flask_db.db'
