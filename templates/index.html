@@ -1,18 +1,10 @@
 {% extends 'base.html' %}
+{% import 'macros.html' as macros %}
 {% block body %}
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Project name</a>
-    </div>
-    </div>
-</nav>
+
+<!-- navbar from macros.hmtl -->
+{{ macros.navbar() }}
+
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
@@ -24,29 +16,7 @@
 
 <div class="container">
     <!-- Example row of columns -->
-    <div class="row">
-    <div class="col-md-4">
-        <div class="well">
-            <h2>Some Title</h2>
-            <p>Some Content</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="well">
-            <h2>Some Title</h2>
-            <p>Some Content</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="well">
-            <h2>Some Title</h2>
-            <p>Some Content</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-    </div>
-    </div>
+    {{ macros.list_items() }}
     <hr>
 <footer>
     <p>&copy; Company 2014</p>
