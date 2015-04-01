@@ -15,4 +15,5 @@ A simple flask tutorial
 > `virtualenv venv`
 
 #[Starting App](http://flask.pocoo.org/docs/0.10/quickstart/)
-> 
+
+#[SQLite3](https://www.sqlite.org/cli.html)

@@ -8,9 +8,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Project name</a>
+        <a class="navbar-brand" href="#">Flask Posts</a>
     </div>
-    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li class=""><a href="/start_post">Write Post</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
 </nav>
 {%- endmacro %}
 
@@ -21,7 +26,9 @@
     <div class="well">
         <h2>{{ post['title'] }}</h2>
         <p>{{ post['content'] }}</p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <form action="/delete_post/{{ post['id'] }}" method="post">
+            <p><input type="submit" class="btn btn-lg btn-danger" value="delete"></input></p>
+        </form>
     </div>
 </div>
 {% endfor %}
@@ -30,6 +37,6 @@
 
 {% macro footer() -%}
 <footer>
-    <p>&copy; Company 2014</p>
+    <p>UMBC</p>
 </footer>
 {%- endmacro %}
