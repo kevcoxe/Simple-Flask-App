@@ -45,6 +45,11 @@ $ cd my-flask-app
 <pre><code>$ sudo pip install virtualenv
 </code></pre>
 
+<p>To add the virtual environment directory do</p>
+
+<pre><code>virtualenv venv
+</code></pre>
+
 <p>Cool now you have your virtual environment, let's start it up.</p>
 
 <pre><code>$ . venv/bin/activate
@@ -76,6 +81,97 @@ def hello_world():
 
 if __name__ == '__main__':
     app.run()
+</code></pre>
+
+<p>CONGRATULATIONS! You have made a flask app! Now let's start it up.</p>
+
+<pre><code>$ python app.py
+</code></pre>
+
+<p>By default it will run on your <a href="http://127.0.0.1:5000/">localhost</a> port 5000.</p>
+
+
+<h3><a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding HTML</h3>
+
+<p>Alright so that's cool we have a working flask app, but it is still boring. Let's add some HTML and make it look nice.</p>
+
+<p>Flask looks for the templates directory for html. So let's create it.</p>
+
+<pre><code>$ mkdir templates
+$ cd templates
+</code></pre>
+
+<p>I will be using a <a href="http://getbootstrap.com">Bootstrap</a> template for quick and easy setup. If you have <code>wget</code> you can use the following line to get the template.</p>
+
+<pre><code>$ wget http://getbootstrap.com/examples/jumbotron/
+</code></pre>
+
+<p>Otehrwise you can go <a href="http://getbootstrap.com/examples/jumbotron/">here</a> view source and download the page and save it as <code>index.html</code>.</p>
+
+<p>Once you have the <code>index.hmtl</code> you will need to change a few lines of code so that the style sheets and javascript files load. Inside of the <code>&lt;head&gt;</code> tag change these lines</p>
+
+<p>For the favicon.</p>
+<pre><code>&lt;link rel="icon" href="../../favicon.ico"&gt;
+</code></pre>
+<pre><code>&lt;link rel="icon" href="http://getbootstrap.com/favicon.ico"&gt;
+</code></pre>
+
+<p>For the base css.</p>
+<pre><code>&lt;!-- Bootstrap core CSS --&gt;
+&lt;link href="../../dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+</code></pre>
+<pre><code>&lt;!-- Bootstrap core CSS --&gt;
+&lt;link href="http://getbootstrap.com/dist/css/bootstrap.min.css"  rel="stylesheet"&gt;
+</code></pre>
+
+<p>For the custom css.</p>
+<pre><code>&lt;!-- Custom styles for this template --&gt;
+&lt;link href="jumbotron.css" rel="stylesheet"&gt;
+</code></pre>
+<pre><code>&lt;!-- Custom styles for this template --&gt;
+&lt;link href="http://getbootstrap.com/examples/jumbotron/jumbotron.css"  rel="stylesheet"&gt;
+</code></pre>
+
+<p>For some javascript.</p>
+<pre><code>&lt;!-- Just for debugging purposes. Don't actually copy these 2 lines! --&gt;
+&lt;!--[if lt IE 9]&gt;&lt;script src="../../assets/js/ie8-responsive-file-warning.js"&gt;&lt;/script&gt;&lt;![endif]--&gt;
+&lt;script src="../../assets/js/ie-emulation-modes-warning.js"&gt;&lt;/script&gt;
+</code></pre>
+<pre><code>&lt;!-- Just for debugging purposes. Don't actually copy these 2 lines! --&gt;
+&lt;!--[if lt IE 9]&gt;&lt;script src="http://getbootstrap.com/assets/js/ie8-responsive-file-warning.js"&gt;&lt;/script&gt;&lt;![endif]--&gt;
+&lt;script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>Next go to the end of the <code>&lt;body&gt;</code> tag and replace these lines.</p>
+
+<p>For Bootstrap javascript.</p>
+<pre><code>&lt;script src="../../dist/js/bootstrap.min.js"&gt;&lt;/script&gt;
+</code></pre>
+<pre><code>&lt;script src="http://getbootstrap.com/dist/js/bootstrap.min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>For Surface/desktop Windows 8 bug.</p>
+<pre><code>&lt;script src="../../assets/js/ie10-viewport-bug-workaround.js"&gt;&lt;/script&gt;
+</code></pre>
+<pre><code>&lt;script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"&gt;&lt;/script&gt;
+</code></pre>
+
+
+<p>Alright now that we have our template ready let's load it. We will add these changes to our <code>app.py</code>.</p>
+
+<pre><code>$ cd ../
+$ vim app.py
+
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run()
+
 </code></pre>
 
       </section>
