@@ -108,7 +108,7 @@ $ cd templates
 <pre><code>$ wget http://getbootstrap.com/examples/jumbotron/
 </code></pre>
 
-<p>Otehrwise you can go <a href="http://getbootstrap.com/examples/jumbotron/">here</a> view source and download the page and save it as <code>index.html</code>.</p>
+<p>Otherwise you can go <a href="http://getbootstrap.com/examples/jumbotron/">here</a> view source and download the page and save it as <code>index.html</code>.</p>
 
 <p>Once you have the <code>index.hmtl</code> you will need to change a few lines of code so that the style sheets and javascript files load. Inside of the <code>&lt;head&gt;</code> tag change these lines</p>
 
@@ -289,7 +289,7 @@ $ vim base.html
 </code></pre>
 
 <p>OK so that was a lot of copy paste, but what did we get out of it? We just added Jinja templating.
-The page is now grabing data from multiple <code>HTML</code> files to create one page.</p>
+The page is now grabbing data from multiple <code>HTML</code> files to create one page.</p>
 
 <p>When <code>index.html</code> is loading it will see</p>
 
@@ -311,7 +311,7 @@ Looking in <code>base.html</code> we will see this line</p>
 <h3><a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding Dynamic Content From Data</h3>
 
 <p>So now that we have a sample of a 'post' for our app let's feed data into our templates to display content.
-We will modifiy our <code>index.html</code> so that it excepts an object named "posts".</p>
+We will modify our <code>index.html</code> so that it excepts an object named "posts".</p>
 
 <pre><code>{% extends 'base.html' %}
 {% block body %}
@@ -433,7 +433,7 @@ $ vim macros.html
 
 <h3><a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQLite3</h3>
 
-<p>Let's add a database to our app. Sqlite works well with Flask. If you need more info on how to set up sqlite check out <a href="http://www.tutorialspoint.com/sqlite/sqlite_installation.htm">this</a> page.</p>
+<p>Let's add a database to our app. SQLite works well with Flask. If you need more info on how to set up SQLite check out <a href="http://www.tutorialspoint.com/sqlite/sqlite_installation.htm">this</a> page.</p>
 
 <p>If you are using linux check your package manager for sqlite3.</p>
 
@@ -445,7 +445,7 @@ And you can find instructions on how to get homebrew <a href="http://brew.sh">he
 
 <p>If on windows you can download it <a href="http://www.sqlite.org/download.html">here</a>.</p>
 
-<p>Once you have sqlite you can create a database with the following command.</p>
+<p>Once you have SQLite you can create a database with the following command.</p>
 
 <pre><code>$ sqlite3 my_database.db
 sqlite&gt; create table my_posts (
