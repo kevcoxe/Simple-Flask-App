@@ -232,7 +232,200 @@ $ vim base.html
 
 </code></pre>
 
-<p>Next we will will overwrite <code>inex.html</code></p>
+<p>Next we will replace the contents of <code>inex.html</code> with the code below.</p>
+
+<pre><code>{% extends 'base.html' %}
+{% block body %}
+&lt;nav class="navbar navbar-inverse navbar-fixed-top"&gt;
+    &lt;div class="container"&gt;
+    &lt;div class="navbar-header"&gt;
+        &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"&gt;
+        &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;a class="navbar-brand" href="/"&gt;Flask Posts&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="navbar" class="navbar-collapse collapse"&gt;
+      &lt;ul class="nav navbar-nav"&gt;
+        &lt;li class="active"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=""&gt;&lt;a href="#"&gt;Write Post&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;&lt;!--/.nav-collapse --&gt;
+&lt;/nav&gt;
+
+&lt;!-- Main jumbotron for a primary marketing message or call to action --&gt;
+&lt;div class="jumbotron"&gt;
+    &lt;div class="container"&gt;
+    &lt;h1&gt;My First Flask App&lt;/h1&gt;
+    &lt;p&gt;Let's learn some Flask!&lt;/p&gt;
+    &lt;p&gt;&lt;a class="btn btn-success btn-lg" href="#" role="button"&gt;Write Post&lt;/a&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="container"&gt;
+    &lt;!-- Example row of columns --&gt;
+    &lt;div class="row"&gt;
+    &lt;div class="col-md-12"&gt;
+        &lt;div class="well"&gt;
+            &lt;h2&gt;A Title&lt;/h2&gt;
+            &lt;p&gt;Some content for this post.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;hr&gt;
+
+    &lt;footer&gt;
+    &lt;p&gt;UMBC Hackers&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/div&gt; &lt;!-- /container --&gt;
+{% endblock %}
+</code></pre>
+
+<p>OK so that was a lot of copy paste, but what did we get out of it? We just added Jinja templating.
+The page is now grabing data from multiple <code>HTML</code> files to create one page.</p>
+
+<p>When <code>index.html</code> is loading it will see</p>
+
+<pre><code>{% extends 'base.html' %}
+{% block body %}
+...
+{% endblock %}
+</code></pre>
+
+<p>This tells the Jinja template to go look at <code>base.html</code> and find where we should put the "body block".
+Looking in <code>base.html</code> we will see this line</p>
+
+<pre><code>{% block body %}{% endblock %}
+</code></pre>
+
+<p>that shows where the "body block" should be loaded.</p>
+
+
+<h3><a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding Dynamic Content From Data</h3>
+
+<p>So now that we have a sample of a 'post' for our app let's feed data into our templates to display content.
+We will modifiy our <code>index.html</code> so that it excepts an object named "posts".</p>
+
+<pre><code>{% extends 'base.html' %}
+{% block body %}
+...
+&lt;div class="container"&gt;
+    &lt;!-- Example row of columns --&gt;
+    &lt;div class="row"&gt;
+    {% for post in posts %}
+    &lt;div class="col-md-12"&gt;
+        &lt;div class="well"&gt;
+            &lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
+            &lt;p&gt;{{ post['content'] }}&lt;/p&gt;
+        &lt;/div&gt;        
+    &lt;/div&gt;            
+    {% endfor %}   
+    &lt;/div&gt;
+
+    &lt;hr&gt;
+
+    &lt;footer&gt;
+    &lt;p&gt;UMBC Hackers&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/div&gt; &lt;!-- /container --&gt;
+{% endblock %}
+</code></pre>
+
+<p>OK now reload your app. Since we never passed in any posts nothing appears.</p>
+
+<p>Time to create some posts. Open up our <code>app.py</code> and change it to look like this.</p>
+
+<pre><code>...
+@app.route('/')
+def index():
+    posts = [ 
+        {'title':'Test 1','content':'This is the content for Test 1.'},
+        {'title':'Test 2','content':'This is the content for Test 2.'},
+        {'title':'Test 3','content':'This is the content for Test 3.'},
+        ]   
+    return render_template('index.html', posts=posts)
+...
+</code></pre>
+
+<p>Cool so now we can pass in objects and use them to populate the HTML. Lets break our <code>index.html</code> up into even more files.</p>
+
+<p>Create a new <code>HTML</code> file in the templates directory named <code>macros.html</code>.</p>
+
+<pre><code>$ cd templates
+$ vim macros.html
+
+{% macro navbar() -%}
+&lt;nav class="navbar navbar-inverse navbar-fixed-top"&gt;
+    &lt;div class="container"&gt;
+    &lt;div class="navbar-header"&gt;
+        &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"&gt;
+        &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;a class="navbar-brand" href="/"&gt;Flask Posts&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="navbar" class="navbar-collapse collapse"&gt;
+      &lt;ul class="nav navbar-nav"&gt;
+        &lt;li class="active"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=""&gt;&lt;a href="#"&gt;Write Post&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;&lt;!--/.nav-collapse --&gt;
+&lt;/nav&gt;
+{%- endmacro %}
+
+{% macro list_items(posts) -%}
+&lt;div class="row"&gt;
+{% for post in posts %}
+&lt;div class="col-md-12"&gt;
+    &lt;div class="well"&gt;
+        &lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
+        &lt;p&gt;{{ post['content'] }}&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+{% endfor %}
+&lt;/div&gt;
+{%- endmacro %}
+
+{% macro footer() -%}
+&lt;footer&gt;
+    &lt;p&gt;UMBC Hackers&lt;/p&gt;
+&lt;/footer&gt;
+{%- endmacro %}
+</code></pre>
+
+<p>Now we just need to modify our <code>index.html</code> so that it uses these macros.</p>
+
+<pre><code>{% extends 'base.html' %}                                                       
+{% import 'macros.html' as macros %}
+{% block body %}
+ 
+&lt;!-- navbar from macros.hmtl --&gt;
+{{ macros.navbar() }}
+ 
+&lt;!-- Main jumbotron for a primary marketing message or call to action --&gt;
+&lt;div class="jumbotron"&gt;
+    &lt;div class="container"&gt;
+    &lt;h1&gt;My First Flask App&lt;/h1&gt;
+    &lt;p&gt;Let's learn some Flask!&lt;/p&gt;
+    &lt;p&gt;&lt;a class="btn btn-success btn-lg" href="#" role="button"&gt;Write Post&lt;/a&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+ 
+&lt;div class="container"&gt;
+    {{ macros.list_items(posts=posts) }}
+    &lt;hr&gt;
+    {{ macros.footer() }}
+&lt;/div&gt; &lt;!-- /container --&gt;
+{% endblock %}
+</code></pre>
+
+<p>So we have now replaced our 'navbar', 'post items', and 'footer' with Jinja tags that will go to our <code>macros.html</code> file and grab the content that is needed.</p>
+
 
       </section>
     </div>
