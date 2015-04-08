@@ -178,11 +178,11 @@ from flask import Flask</code><code class="new">, render_template</code>
 <code>
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/')</code>
 <code class="old">def hello_world():
     return 'Hello World!'</code>
 <code class="new">def index():
-    return render_template('index.html')</code>
+    return render_template('index.html')</code><code>
 
 if __name__ == '__main__':
     app.run(
@@ -367,7 +367,7 @@ We will modify our <code>index.html</code> so that it excepts an object named "p
             <code class="new">&lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
             &lt;p&gt;{{ post['content'] }}&lt;/p&gt;</code><code>
         &lt;/div&gt;
-    &lt;/div&gt;
+    &lt;/div&gt;</code>
     <code class="new">{% endfor %}</code><code>
     &lt;/div&gt;
 
@@ -395,7 +395,7 @@ def index():</code>
         {'title':'Test 2','content':'This is the content for Test 2.'},
         {'title':'Test 3','content':'This is the content for Test 3.'},
         ]
-    return render_template('index.html', posts=posts)</code>
+    return render_template('index.html', posts=posts)</code><code>
 
 if __name__ == '__main__':
     app.run(
@@ -551,19 +551,19 @@ More information on how to create sqlite tables can be found <a href="https://ww
 
 <pre><code class="new">import sqlite3</code><code>
 from flask import Flask, render_template</code><code class="new">, g, request, redirect</code><code>
-app = Flask(__name__)
+app = Flask(__name__)</code>
 
-<code class="new">DATABASE = 'my_database.db'</code>
+<code class="new">DATABASE = 'my_database.db'</code><code>
 
 @app.route('/')
-def index():
+def index():</code>
     <code class="old">posts = [ 
         {'title':'Test 1','content':'This is the content for Test 1.'},
         {'title':'Test 2','content':'This is the content for Test 2.'},
         {'title':'Test 3','content':'This is the content for Test 3.'},
-        ]</code><code>
+        ]</code>
     <code class="new">posts = query_db('select * from my_posts')</code><code>
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', posts=posts)</code>
 
 <code class="new"># delete items from the database
 # using their 'id'
@@ -653,7 +653,7 @@ vim add_post.html
 </code></pre>
 
 <p>Now we need to add a route to our <code>app.py</code> that will link to <code>add_post.html</code> and we will need to add a route for "/write_post".</p>
-<pre>import sqlite3
+<pre><code>import sqlite3
 from flask import Flask, render_template, g, request, redirect
 app = Flask(__name__)
 
@@ -770,7 +770,7 @@ macros.html
     &lt;/div&gt;
     &lt;div id="navbar" class="navbar-collapse collapse"&gt;
       &lt;ul class="nav navbar-nav"&gt;
-        &lt;li class="active"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="active"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;</code>
         <code class="old">&lt;li class=""&gt;&lt;a href="#"&gt;Write Post&lt;/a&gt;&lt;/li&gt;</code>
         <code class="new">&lt;li class=""&gt;&lt;a href="/start_post"&gt;Write Post&lt;/a&gt;&lt;/li&gt;</code><code>
       &lt;/ul&gt;
@@ -831,10 +831,10 @@ All we need is to change our macro "list_items(posts)" in <code>macros.html</cod
 &lt;div class="col-md-12"&gt;
     &lt;div class="well"&gt;
         &lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
-        &lt;p&gt;{{ post['content'] }}&lt;/p&gt;
+        &lt;p&gt;{{ post['content'] }}&lt;/p&gt;</code>
         <code class="new">&lt;form action="/delete_post/{{ post['id'] }}" method="post"&gt;
             &lt;p&gt;&lt;input type="submit" class="btn btn-lg btn-danger" value="delete"&gt;&lt;/input&gt;&lt;/p&gt;
-        &lt;/form&gt;</code>
+        &lt;/form&gt;</code><code>
     &lt;/div&gt;
 &lt;/div&gt;
 {% endfor %}
