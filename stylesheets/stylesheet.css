@@ -177,6 +177,14 @@ pre.old {
   overflow-y: hidden;
 }
 
+code.old {
+  color: #e80000;
+}
+
+code.new {
+  color: #63c0f5;
+}
+
 table {
   width: 100%;
   margin: 0 0 20px 0;

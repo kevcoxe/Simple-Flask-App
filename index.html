@@ -103,9 +103,11 @@ if __name__ == '__main__':
 $ cd templates
 </code></pre>
 
-<p>I will be using a <a href="http://getbootstrap.com">Bootstrap</a> template for quick and easy setup. If you have <code>wget</code> you can use the following line to get the template.</p>
-
-<pre><code>$ wget http://getbootstrap.com/examples/jumbotron/
+<p>I will be using a <a href="http://getbootstrap.com">Bootstrap</a> template for quick and easy setup. To download the bootstrap page I will be using you can use
+<pre><code>$ curl 'http://getbootstrap.com/examples/jumbotron/index.html' > index.html
+</code></pre>
+OR
+<pre><code>$ wget http://getbootstrap.com/examples/jumbotron/index.html
 </code></pre>
 
 <p>Otherwise you can go <a href="http://getbootstrap.com/examples/jumbotron/">here</a> view source and download the page and save it as <code>index.html</code>.</p>
@@ -164,12 +166,15 @@ $ cd templates
 <pre><code>$ cd ../
 $ vim app.py
 
-from flask import Flask, render_template
+from flask import Flask</code><code class="new">, render_template</code>
+<code>
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+<code class="old">def hello_world():
+    return 'Hello World!'</code>
+<code class="new">def index():
+    return render_template('index.html')</code>
 
 if __name__ == '__main__':
     app.run(
@@ -315,18 +320,47 @@ We will modify our <code>index.html</code> so that it excepts an object named "p
 
 <pre><code>{% extends 'base.html' %}
 {% block body %}
-...
+&lt;nav class="navbar navbar-inverse navbar-fixed-top"&gt;
+    &lt;div class="container"&gt;
+    &lt;div class="navbar-header"&gt;
+        &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"&gt;
+        &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;a class="navbar-brand" href="/"&gt;Flask Posts&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="navbar" class="navbar-collapse collapse"&gt;
+      &lt;ul class="nav navbar-nav"&gt;
+        &lt;li class="active"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=""&gt;&lt;a href="#"&gt;Write Post&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;&lt;!--/.nav-collapse --&gt;
+&lt;/nav&gt;
+
+&lt;!-- Main jumbotron for a primary marketing message or call to action --&gt;
+&lt;div class="jumbotron"&gt;
+    &lt;div class="container"&gt;
+    &lt;h1&gt;My First Flask App&lt;/h1&gt;
+    &lt;p&gt;Let's learn some Flask!&lt;/p&gt;
+    &lt;p&gt;&lt;a class="btn btn-success btn-lg" href="#" role="button"&gt;Write Post&lt;/a&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
 &lt;div class="container"&gt;
     &lt;!-- Example row of columns --&gt;
-    &lt;div class="row"&gt;
-    {% for post in posts %}
+    &lt;div class="row"&gt;</code>
+    <code class="new">{% for post in posts %}</code><code>
     &lt;div class="col-md-12"&gt;
-        &lt;div class="well"&gt;
-            &lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
-            &lt;p&gt;{{ post['content'] }}&lt;/p&gt;
-        &lt;/div&gt;        
-    &lt;/div&gt;            
-    {% endfor %}   
+        &lt;div class="well"&gt;</code>
+            <code class="old">&lt;h2&gt;A Title&lt;/h2&gt;
+            &lt;p&gt;Some content for this post.&lt;/p&gt;</code>
+            <code class="new">&lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
+            &lt;p&gt;{{ post['content'] }}&lt;/p&gt;</code><code>
+        &lt;/div&gt;
+    &lt;/div&gt;
+    <code class="new">{% endfor %}</code><code>
     &lt;/div&gt;
 
     &lt;hr&gt;
@@ -342,16 +376,23 @@ We will modify our <code>index.html</code> so that it excepts an object named "p
 
 <p>Time to create some posts. Open up our <code>app.py</code> and change it to look like this.</p>
 
-<pre><code>...
+<pre><code>from flask import Flask, render_template
+app = Flask(__name__)
+
 @app.route('/')
-def index():
-    posts = [ 
+def index():</code>
+    <code class="old">return render_template('index.html')</code>
+    <code class="new">posts = [ 
         {'title':'Test 1','content':'This is the content for Test 1.'},
         {'title':'Test 2','content':'This is the content for Test 2.'},
         {'title':'Test 3','content':'This is the content for Test 3.'},
-        ]   
-    return render_template('index.html', posts=posts)
-...
+        ]
+    return render_template('index.html', posts=posts)</code>
+
+if __name__ == '__main__':
+    app.run(
+        debug=True,
+    )
 </code></pre>
 
 <p>Cool so now we can pass in objects and use them to populate the HTML. Lets break our <code>index.html</code> up into even more files.</p>
@@ -404,13 +445,30 @@ $ vim macros.html
 
 <p>Now we just need to modify our <code>index.html</code> so that it uses these macros.</p>
 
-<pre><code>{% extends 'base.html' %}                                                       
-{% import 'macros.html' as macros %}
-{% block body %}
- 
-&lt;!-- navbar from macros.hmtl --&gt;
-{{ macros.navbar() }}
- 
+<pre><code>{% extends 'base.html' %}
+<code class="new">{% import 'macros.html' as macros %}</code>
+{% block body %}</code><code class="old">
+&lt;nav class="navbar navbar-inverse navbar-fixed-top"&gt;
+    &lt;div class="container"&gt;
+    &lt;div class="navbar-header"&gt;
+        &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"&gt;
+        &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;a class="navbar-brand" href="/"&gt;Flask Posts&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="navbar" class="navbar-collapse collapse"&gt;
+      &lt;ul class="nav navbar-nav"&gt;
+        &lt;li class="active"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=""&gt;&lt;a href="#"&gt;Write Post&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;&lt;!--/.nav-collapse --&gt;
+&lt;/nav&gt;</code>
+<code class="new">&lt;!-- navbar from macros.hmtl --&gt;
+{{ macros.navbar() }}</code>
+
 &lt;!-- Main jumbotron for a primary marketing message or call to action --&gt;
 &lt;div class="jumbotron"&gt;
     &lt;div class="container"&gt;
@@ -419,13 +477,28 @@ $ vim macros.html
     &lt;p&gt;&lt;a class="btn btn-success btn-lg" href="#" role="button"&gt;Write Post&lt;/a&gt;&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;
- 
-&lt;div class="container"&gt;
-    {{ macros.list_items(posts=posts) }}
+
+&lt;div class="container"&gt;</code>
+    <code class="old">&lt;!-- Example row of columns --&gt;
+    &lt;div class="row"&gt;
+    {% for post in posts %}
+    &lt;div class="col-md-12"&gt;
+        &lt;div class="well"&gt;
+            &lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
+            &lt;p&gt;{{ post['content'] }}&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    {% endfor %}
+    &lt;/div&gt;</code>
+    <code class="new">{{ macros.list_items(posts=posts) }}</code><code>
     &lt;hr&gt;
-    {{ macros.footer() }}
+    </code><code class="old">&lt;footer&gt;
+    &lt;p&gt;UMBC Hackers&lt;/p&gt;
+    &lt;/footer&gt;</code><code>
+    <code class="new">{{ macros.footer() }}</code>
 &lt;/div&gt; &lt;!-- /container --&gt;
 {% endblock %}
+
 </code></pre>
 
 <p>So we have now replaced our 'navbar', 'post items', and 'footer' with Jinja tags that will go to our <code>macros.html</code> file and grab the content that is needed.</p>
@@ -468,7 +541,111 @@ More information on how to create sqlite tables can be found <a href="https://ww
 
 <p>We can now add the link to the database to our Flask app. We will now edit out <code>app.py</code> to look like this.</p>
 
-<pre><code>import sqlite3
+<pre><code class="new">import sqlite3</code><code>
+from flask import Flask, render_template</code><code class="new">, g, request, redirect</code><code>
+app = Flask(__name__)
+
+<code class="new">DATABASE = 'my_database.db'</code>
+
+@app.route('/')
+def index():
+    <code class="old">posts = [ 
+        {'title':'Test 1','content':'This is the content for Test 1.'},
+        {'title':'Test 2','content':'This is the content for Test 2.'},
+        {'title':'Test 3','content':'This is the content for Test 3.'},
+        ]</code><code>
+    <code class="new">posts = query_db('select * from my_posts')</code><code>
+    return render_template('index.html', posts=posts)
+
+<code class="new"># delete items from the database
+# using their 'id'
+@app.route('/delete_post/&lt;int:id&gt;', methods = ['POST'])
+def remove_post(id=0):
+    delete_post(id)
+    return redirect('/')
+
+def delete_post(id):
+    cur = g.db.execute('delete from my_posts where(id == "%s");' % (
+        id,
+        ))
+    g.db.commit()
+
+# insert a 'post' into the database
+def insert_post(post):
+    cur = g.db.execute('insert into my_posts values(%s,"%s","%s");' % (
+        post['id'],
+        post['title'],
+        post['content'],
+        ))
+    g.db.commit()
+
+# take a 'query' string and execute it
+def query_db(query, args=(), one=False):
+    cur = g.db.execute(query, args)
+    rv = [dict((cur.description[idx][0], value)
+               for idx, value in enumerate(row)) for row in cur.fetchall()]
+    return (rv[0] if rv else None) if one else rv
+
+# connect to the database
+def connect_db():
+    return sqlite3.connect(DATABASE)
+
+@app.before_request
+def before_request():
+    g.db = connect_db()
+
+@app.after_request
+def after_request(response):
+    g.db.close()
+    return response</code><code>
+
+if __name__ == '__main__':
+    app.run(
+        debug=True,
+    )
+
+</code></pre>
+
+<p>Sweet! You have successfully connected to your sqlite database. If you reload the page you will see that
+it now displays the post you created from the command line.</p>
+
+<p>Let's add the ability to create a post. To start you will need to create a file <code>add_post.html</code> in the templates directory.</p>
+
+<pre><code>$ cd templates
+vim add_post.html
+
+{% extends 'base.html' %}
+{% import 'macros.html' as macros %}
+{% block body %}
+&lt;!-- navbar from macros.hmtl --&gt;
+{{ macros.navbar() }}
+&lt;div class="container"&gt;
+&lt;!-- Main jumbotron for a primary marketing message or call to action --&gt;
+&lt;div class="jumbotron"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;Write A Post&lt;/h1&gt;
+    &lt;p&gt;Enter the information below to post.&lt;/p&gt;
+    &lt;form role="form" action="/write_post" method="post"&gt;
+      &lt;div class="input-group input-group-lg"&gt;
+        &lt;span class="input-group-addon" id="sizing-addon1"&gt;Title&lt;/span&gt;
+        &lt;input type="text" class="form-control" placeholder="My Title" aria-describedby="sizing-addon1" name="title"&gt;
+      &lt;/div&gt;
+      &lt;div class="form-group"&gt;
+        &lt;label for="comment"&gt;Content&lt;/label&gt;
+        &lt;textarea class="form-control" rows="5" id="content" name="content"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;p&gt;&lt;input type="submit" class="btn btn-lg btn-success" value="post"&gt;&lt;/input&gt;&lt;/p&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+{{ macros.footer() }}
+&lt;/div&gt; &lt;!-- /container --&gt;
+{% endblock %}
+</code></pre>
+
+<p>Now we need to add a route to our <code>app.py</code> that will link to <code>add_post.html</code> and we will need to add a route for "/write_post".</p>
+<pre>import sqlite3
 from flask import Flask, render_template, g, request, redirect
 app = Flask(__name__)
 
@@ -477,11 +654,23 @@ DATABASE = 'my_database.db'
 @app.route('/')
 def index():
     posts = query_db('select * from my_posts')
-    return render_template('index.html',posts=posts)
+    return render_template('index.html', posts=posts)</code>
+
+<code class="new">@app.route('/start_post')
+def form_post():
+    return render_template('add_post.html')
+
+@app.route('/write_post', methods = ['POST'])
+def add_post():
+    title = request.form['title']
+    content = request.form['content']
+    post = {'id':'null','title':title,'content':content}
+    insert_post(post)
+    return redirect('/')</code><code>
 
 # delete items from the database
 # using their 'id'
-@app.route('/delete_post/<int:id>', methods = ['POST'])
+@app.route('/delete_post/&lt;int:id&gt;', methods = ['POST'])
 def remove_post(id=0):
     delete_post(id)
     return redirect('/')
@@ -525,84 +714,62 @@ if __name__ == '__main__':
     app.run(
         debug=True,
     )
+
 </code></pre>
 
-<p>Sweet! You have successfully connected to your sqlite database. If you reload the page you will see that
-it now displays the post you created from the command line.</p>
-
-<p>Let's add the ability to create a post. To start you will need to create a file <code>add_post.html</code> in the templates directory.</p>
-
-<pre><code>$ cd templates
-vim add_post.html
-
-{% extends 'base.html' %}
-{% import 'macros.html' as macros %}
-{% block body %}
-&lt;!-- navbar from macros.hmtl --&gt;
-{{ macros.navbar() }}
-&lt;div class="container"&gt;
-&lt;!-- Main jumbotron for a primary marketing message or call to action --&gt;
-&lt;div class="jumbotron"&gt;
-  &lt;div class="container"&gt;
-    &lt;h1&gt;Write A Post&lt;/h1&gt;
-    &lt;p&gt;Enter the information below to post.&lt;/p&gt;
-    &lt;form role="form" action="/write_post" method="post"&gt;
-      &lt;div class="input-group input-group-lg"&gt;
-        &lt;span class="input-group-addon" id="sizing-addon1"&gt;Title&lt;/span&gt;
-        &lt;input type="text" class="form-control" placeholder="My Title" aria-describedby="sizing-addon1" name="title"&gt;
-      &lt;/div&gt;
-      &lt;div class="form-group"&gt;
-        &lt;label for="comment"&gt;Content&lt;/label&gt;
-        &lt;textarea class="form-control" rows="5" id="content" name="content"&gt;&lt;/textarea&gt;
-      &lt;/div&gt;
-      &lt;p&gt;&lt;input type="submit" class="btn btn-lg btn-success" value="post"&gt;&lt;/input&gt;&lt;/p&gt;
-    &lt;/form&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;hr&gt;
-{{ macros.footer() }}
-&lt;/div&gt; &lt;!-- /container --&gt;
-{% endblock %}
-</code></pre>
-
-<p>Now we need to add a route to our <code>app.py</code> that will link to <code>add_post.html</code> and we will need to add a route for "/write_post".</p>
-
-<pre><code>...
-@app.route('/start_post')
-def form_post():
-    return render_template('add_post.html')
-
-@app.route('/write_post', methods = ['POST'])
-def add_post():
-    title = request.form['title']
-    content = request.form['content']
-    post = {'id':'null','title':title,'content':content}
-    insert_post(post)
-    return redirect('/')
-...
-</code></pre>
 
 <p>Oops! We need a way to get to our new page. Let's add some links to it. We will need to add a <code>href</code>
 to our button in <code>index.html</code> and to the item in our 'navbar' in <code>macros.html</code>.</p>
 
 index.html
-<pre><code>...
-&lt;p&gt;&lt;a class="btn btn-success btn-lg" href="/start_post" role="button">Write Post&lt;/a&gt;&lt;/p&gt;
-...
+<pre><code>{% extends 'base.html' %}
+{% import 'macros.html' as macros %}
+{% block body %}
+&lt;!-- navbar from macros.hmtl --&gt;
+{{ macros.navbar() }}
+
+&lt;!-- Main jumbotron for a primary marketing message or call to action --&gt;
+&lt;div class="jumbotron"&gt;
+    &lt;div class="container"&gt;
+    &lt;h1&gt;My First Flask App&lt;/h1&gt;
+    &lt;p&gt;Let's learn some Flask!&lt;/p&gt;</code>
+    <code class="old">&lt;p&gt;&lt;a class="btn btn-success btn-lg" href="#" role="button"&gt;Write Post&lt;/a&gt;&lt;/p&gt;</code>
+    <code class="new">&lt;p&gt;&lt;a class="btn btn-success btn-lg" href="/start_post" role="button">Write Post&lt;/a&gt;&lt;/p&gt;</code><code>
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="container"&gt;
+    {{ macros.list_items(posts=posts) }}
+    &lt;hr&gt;
+    {{ macros.footer() }}
+&lt;/div&gt; &lt;!-- /container --&gt;
+{% endblock %}
+
 </code></pre>
 
 macros.html
-<pre><code>...
-&lt;li class=""&gt;&lt;a href="/start_post"&gt;Write Post&lt;/a&gt;&lt;/li&gt;
-...
-</code></pre>
+<pre><code>{% macro navbar() -%}
+&lt;nav class="navbar navbar-inverse navbar-fixed-top"&gt;
+    &lt;div class="container"&gt;
+    &lt;div class="navbar-header"&gt;
+        &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"&gt;
+        &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;a class="navbar-brand" href="/"&gt;Flask Posts&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="navbar" class="navbar-collapse collapse"&gt;
+      &lt;ul class="nav navbar-nav"&gt;
+        &lt;li class="active"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        <code class="old">&lt;li class=""&gt;&lt;a href="#"&gt;Write Post&lt;/a&gt;&lt;/li&gt;</code>
+        <code class="new">&lt;li class=""&gt;&lt;a href="/start_post"&gt;Write Post&lt;/a&gt;&lt;/li&gt;</code><code>
+      &lt;/ul&gt;
+    &lt;/div&gt;&lt;!--/.nav-collapse --&gt;
+&lt;/nav&gt;
+{%- endmacro %}
 
-<p>Whoo! Check it out you can now add a post to the page!</p>
-
-<p>OK so now we should also add the ability to delete posts. Let's add a "delete" button.
-All we need is to change our macro "list_items(posts)" in <code>macros.html</code>.</p>
-
-<pre><code>...
 {% macro list_items(posts) -%}
 &lt;div class="row"&gt;
 {% for post in posts %}
@@ -610,15 +777,68 @@ All we need is to change our macro "list_items(posts)" in <code>macros.html</cod
     &lt;div class="well"&gt;
         &lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
         &lt;p&gt;{{ post['content'] }}&lt;/p&gt;
-        &lt;form action="/delete_post/{{ post['id'] }}" method="post"&gt;
-            &lt;p&gt;&lt;input type="submit" class="btn btn-lg btn-danger" value="delete"&gt;&lt;/input&gt;&lt;/p&gt;
-        &lt;/form&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 {% endfor %}
 &lt;/div&gt;
 {%- endmacro %}
-...
+
+{% macro footer() -%}
+&lt;footer&gt;
+    &lt;p&gt;UMBC Hackers&lt;/p&gt;
+&lt;/footer&gt;
+{%- endmacro %}
+
+</code></pre>
+
+<p>Whoo! Check it out you can now add a post to the page!</p>
+
+<p>OK so now we should also add the ability to delete posts. Let's add a "delete" button.
+All we need is to change our macro "list_items(posts)" in <code>macros.html</code>.</p>
+
+<pre><code>{% macro navbar() -%}
+&lt;nav class="navbar navbar-inverse navbar-fixed-top"&gt;
+    &lt;div class="container"&gt;
+    &lt;div class="navbar-header"&gt;
+        &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"&gt;
+        &lt;span class="sr-only"&gt;Toggle navigation&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;span class="icon-bar"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;a class="navbar-brand" href="/"&gt;Flask Posts&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="navbar" class="navbar-collapse collapse"&gt;
+      &lt;ul class="nav navbar-nav"&gt;
+        &lt;li class="active"&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=""&gt;&lt;a href="/start_post"&gt;Write Post&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;&lt;!--/.nav-collapse --&gt;
+&lt;/nav&gt;
+{%- endmacro %}
+
+{% macro list_items(posts) -%}
+&lt;div class="row"&gt;
+{% for post in posts %}
+&lt;div class="col-md-12"&gt;
+    &lt;div class="well"&gt;
+        &lt;h2&gt;{{ post['title'] }}&lt;/h2&gt;
+        &lt;p&gt;{{ post['content'] }}&lt;/p&gt;
+        <code class="new">&lt;form action="/delete_post/{{ post['id'] }}" method="post"&gt;
+            &lt;p&gt;&lt;input type="submit" class="btn btn-lg btn-danger" value="delete"&gt;&lt;/input&gt;&lt;/p&gt;
+        &lt;/form&gt;</code>
+    &lt;/div&gt;
+&lt;/div&gt;
+{% endfor %}
+&lt;/div&gt;
+{%- endmacro %}
+
+{% macro footer() -%}
+&lt;footer&gt;
+    &lt;p&gt;UMBC Hackers&lt;/p&gt;
+&lt;/footer&gt;
+{%- endmacro %}
+
 </code></pre>
 
 
