@@ -453,9 +453,9 @@ $ vim macros.html
 
 <p>Now we just need to modify our <code>index.html</code> so that it uses these macros.</p>
 
-<pre><code>{% extends 'base.html' %}
+<pre><code>{% extends 'base.html' %}</code>
 <code class="new">{% import 'macros.html' as macros %}</code>
-{% block body %}</code><code class="old">
+<code>{% block body %}</code><code class="old">
 &lt;nav class="navbar navbar-inverse navbar-fixed-top"&gt;
     &lt;div class="container"&gt;
     &lt;div class="navbar-header"&gt;
@@ -475,7 +475,7 @@ $ vim macros.html
     &lt;/div&gt;&lt;!--/.nav-collapse --&gt;
 &lt;/nav&gt;</code>
 <code class="new">&lt;!-- navbar from macros.hmtl --&gt;
-{{ macros.navbar() }}</code>
+{{ macros.navbar() }}</code><code>
 
 &lt;!-- Main jumbotron for a primary marketing message or call to action --&gt;
 &lt;div class="jumbotron"&gt;
@@ -502,8 +502,8 @@ $ vim macros.html
     &lt;hr&gt;
     </code><code class="old">&lt;footer&gt;
     &lt;p&gt;UMBC Hackers&lt;/p&gt;
-    &lt;/footer&gt;</code><code>
-    <code class="new">{{ macros.footer() }}</code>
+    &lt;/footer&gt;</code>
+    <code class="new">{{ macros.footer() }}</code><code>
 &lt;/div&gt; &lt;!-- /container --&gt;
 {% endblock %}
 
