@@ -4,25 +4,25 @@
 <!-- navbar from macros.hmtl -->
 {{ macros.navbar() }}
 <div class="container">
-	<!-- Main jumbotron for a primary marketing message or call to action -->
-	<div class="jumbotron">
-		<div class="container">
-			<h1>Write A Post</h1>
-			<p>Enter the information below to post.</p>
-			<form role="form" action="/write_post" method="post">
-				<div class="input-group input-group-lg">
-					<span class="input-group-addon" id="sizing-addon1">Title</span>
-					<input type="text" class="form-control" placeholder="My Title" aria-describedby="sizing-addon1" name="title">
-				</div>
-				<div class="form-group">
-					<label for="comment">Content</label>
-					<textarea class="form-control" rows="5" id="content" name="content"></textarea>
-				</div>
-				<p><input type="submit" class="btn btn-lg btn-success" value="post"></input></p>
-			</form>
-		</div>
-	</div>
-	<hr>
-	{{ macros.footer() }}
-	</div> <!-- /container -->
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container">
+    <h1>Write A Post</h1>
+    <p>Enter the information below to post.</p>
+    <form role="form" action="/write_post" method="post">
+      <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="sizing-addon1">Title</span>
+        <input type="text" class="form-control" placeholder="My Title" aria-describedby="sizing-addon1" name="title">
+      </div>
+      <div class="form-group">
+        <label for="comment">Content</label>
+        <textarea class="form-control" rows="5" id="content" name="content"></textarea>
+      </div>
+      <p><input type="submit" class="btn btn-lg btn-success" value="post"></input></p>
+    </form>
+  </div>
+</div>
+<hr>
+{{ macros.footer() }}
+</div> <!-- /container -->
 {% endblock %}

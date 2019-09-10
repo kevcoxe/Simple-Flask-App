@@ -7,16 +7,16 @@
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
-    <div class="container">
-    <h1>My First Flask App</h1>
-    <p>Let's learn some Flask!</p>
+  <div class="container">
+    <h1>Hello, world!</h1>
+    <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
     <p><a class="btn btn-success btn-lg" href="/start_post" role="button">Write Post</a></p>
-    </div>
+  </div>
 </div>
 
 <div class="container">
-    {{ macros.list_items(posts=posts) }}
-    <hr>
-    {{ macros.footer() }}
+  {{ macros.list_items(posts=posts) }}
+  <hr>
+  {{ macros.footer() }}
 </div> <!-- /container -->
 {% endblock %}

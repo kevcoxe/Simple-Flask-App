@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS my_posts;
+
+CREATE TABLE my_posts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL
+);
