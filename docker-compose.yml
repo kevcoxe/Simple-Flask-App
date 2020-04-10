@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  flask_app:
+    build: .
+    container_name: simple_flask_app
+    restart: always
+    environment:
+      - PORT=8000
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"

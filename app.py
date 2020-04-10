@@ -1,10 +1,16 @@
 
+import os
 import sqlite3
 
 from flask import Flask, render_template, g, request, redirect
 app = Flask(__name__)
 
-DATABASE = 'my_database.db'
+DATABASE = os.getenv('DATABASE', 'my_database.db')
+PORT = os.getenv('PORT', 5000)
+HOST = os.getenv('HOST', '0.0.0.0')
+
+
+print("RUNNING THIS THING")
 
 
 @app.route('/')
@@ -77,4 +83,7 @@ def after_request(response):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(
+        port=PORT,
+        host=HOST
+    )
