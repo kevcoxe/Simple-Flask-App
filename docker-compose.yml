@@ -1,13 +1,23 @@
 version: "3.7"
 
 services:
-  flask_app:
-    build: .
-    container_name: simple_flask_app
+
+  # this uses the docker container from kevcoxe/simple-flask-app
+  blog_example:
+    image: kevcoxe/simple-flask-app
+    container_name: simple_flask_blog
     restart: always
     environment:
       - PORT=8000
-    expose:
-      - 8000
     ports:
       - "8000:8000"
+
+  # this uses the local container in this repo
+  #local_flask_app:
+  #  build: .
+  #  container_name: simple_flask_app
+  #  restart: always
+  #  environment:
+  #    - PORT=8000
+  #  ports:
+  #    - "8000:8000"
